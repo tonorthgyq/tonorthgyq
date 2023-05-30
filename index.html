@@ -71,6 +71,99 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Experiment5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/30/Experiment5/" class="article-date">
+  <time class="dt-published" datetime="2023-05-30T02:06:59.000Z" itemprop="datePublished">2023-05-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/30/Experiment5/">Experiment5</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><h3 id="求解矩阵最小路径和问题"><a href="#求解矩阵最小路径和问题" class="headerlink" title="求解矩阵最小路径和问题"></a>求解矩阵最小路径和问题</h3><p>给定一个m行n列的矩阵，从左上角开始每次只能向右或者向下移动，最后到达右下角的位置，路径上的所有数字累加起来作为这条路径的路径和</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">int</span> m, n;</span><br><span class="line"><span class="type">int</span> ans;<span class="comment">//最小路径</span></span><br><span class="line"><span class="type">int</span> u;</span><br><span class="line"><span class="type">int</span> a[<span class="number">1005</span>][<span class="number">1005</span>];</span><br><span class="line"><span class="type">int</span> dp[<span class="number">1005</span>][<span class="number">1005</span>];<span class="comment">//动态规划数组			</span></span><br><span class="line"><span class="type">int</span> pre[<span class="number">1005</span>][<span class="number">1005</span>];<span class="comment">//前驱结点</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dpsort</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (i == <span class="number">1</span> &amp;&amp; j == <span class="number">1</span>) &#123;<span class="comment">//首节点</span></span><br><span class="line">				dp[i][j] = a[i][j];</span><br><span class="line">				pre[i][j] = j;</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (j == <span class="number">1</span>) &#123;<span class="comment">//计算第一列的和</span></span><br><span class="line">				dp[i][j] = dp[i - <span class="number">1</span>][j] + a[i][j];</span><br><span class="line">				pre[i][j] = j;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (i == <span class="number">1</span>)<span class="comment">//计算第一行的和</span></span><br><span class="line">				dp[i][j] = dp[i][j - <span class="number">1</span>] + a[i][j];</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				dp[i][j] = <span class="built_in">min</span>(dp[i - <span class="number">1</span>][j], dp[i][j - <span class="number">1</span>]) + a[i][j];<span class="comment">//计算最短路径和</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">path</span><span class="params">()</span> </span>&#123;<span class="comment">//输出最短路径</span></span><br><span class="line">	stack&lt;<span class="type">int</span>&gt; st;<span class="comment">//定义一个栈，目的是为了，逆向输出推导出来的逆向路径（因为是逆推）</span></span><br><span class="line">	st.<span class="built_in">push</span>(a[m][n]);<span class="comment">//将最后一个节点入栈</span></span><br><span class="line">	<span class="type">int</span> i = m;</span><br><span class="line">	<span class="type">int</span> j = n;</span><br><span class="line">	<span class="keyword">while</span> (i != <span class="number">1</span> || j != <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span> (i == <span class="number">1</span>) &#123;</span><br><span class="line">			st.<span class="built_in">push</span>(a[i][j - <span class="number">1</span>]);</span><br><span class="line">			j = j - <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (j == <span class="number">1</span>) &#123;</span><br><span class="line">			st.<span class="built_in">push</span>(a[i - <span class="number">1</span>][j]);</span><br><span class="line">			i = i - <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (dp[i][j - <span class="number">1</span>] &lt; dp[i - <span class="number">1</span>][j]) &#123;</span><br><span class="line">			st.<span class="built_in">push</span>(a[i][j - <span class="number">1</span>]);</span><br><span class="line">			j = j - <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			st.<span class="built_in">push</span>(a[i - <span class="number">1</span>][j]);</span><br><span class="line">			i = i - <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (!st.<span class="built_in">empty</span>()) &#123;<span class="comment">//出栈</span></span><br><span class="line">		<span class="type">int</span> t = st.<span class="built_in">top</span>();</span><br><span class="line">		st.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, t);</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	cin &gt;&gt; m &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123;</span><br><span class="line">			cin &gt;&gt; a[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123;</span><br><span class="line">			cout&lt;&lt; a[i][j]&lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">dpsort</span>();</span><br><span class="line">	<span class="built_in">path</span>();</span><br><span class="line">	cout &lt;&lt; dp[m][n];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\86137\Pictures\QQ图片20230530105013.jpg"></p>
+<p><img src="C:\Users\86137\Pictures\QQ图片20230530111631.jpg"></p>
+<h2 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h2><h3 id=""><a href="#" class="headerlink" title=""></a></h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">max</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a &gt; b ? a : b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n;</span><br><span class="line">	<span class="type">int</span> a[<span class="number">100</span>];</span><br><span class="line">	<span class="type">int</span> dp[<span class="number">100</span>];</span><br><span class="line">	<span class="type">int</span> i, j;</span><br><span class="line">	<span class="built_in">scanf_s</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">		<span class="built_in">scanf_s</span>(<span class="string">&quot;%d&quot;</span>, &amp;a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">		dp[i] = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">1</span>; j &lt; i; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (a[i] &lt; a[j])</span><br><span class="line">				dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + <span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">		<span class="built_in">printf_s</span>(<span class="string">&quot;%d &quot;</span>, dp[i]);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= n; i++) &#123;<span class="comment">//找最大的dp</span></span><br><span class="line">		<span class="keyword">for</span> (j = <span class="number">1</span>; j &lt;= n - i; j++)</span><br><span class="line">			<span class="keyword">if</span> (dp[j] &gt; dp[j + <span class="number">1</span>]) &#123;</span><br><span class="line">				<span class="type">int</span> t = dp[j];</span><br><span class="line">				dp[j] = dp[j + <span class="number">1</span>];</span><br><span class="line">				dp[j + <span class="number">1</span>] = t;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, dp[n]);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\86137\Pictures\QQ图片20230530114257.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/30/Experiment5/" data-id="cli9qm52m0001iovy5amx04tg" data-title="Experiment5" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/" rel="tag">动态规划法</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-bool" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/05/05/bool/" class="article-date">
+  <time class="dt-published" datetime="2023-05-05T13:09:22.000Z" itemprop="datePublished">2023-05-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/05/05/bool/">Bool(布尔类型)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>​     C语言并没有彻底从语法上支持“真”和“假”，只是用 0 和非 0 来代表。这点在 <a target="_blank" rel="noopener" href="http://c.biancheng.net/cplus/">C++</a> 中得到了改善，C++ 新增了 <strong>bool 类型（布尔类型）</strong>，它一般占用 1 个字节长度。bool 类型只有两个取值，true 和 false：true 表示“真”，false 表示“假”。</p>
+<p>bool 是类型名字，也是 C++ 中的关键字，它的用法和 int、char、long 是一样的，请看下面的例子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> a, b;</span><br><span class="line">    <span class="type">bool</span> flag;  <span class="comment">//定义布尔变量</span></span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">    flag = a &gt; b;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;flag = &quot;</span>&lt;&lt;flag&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 也可以使用 true 或 false 显式地对 bool 变量赋值，例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">bool</span> flag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(flag)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;true&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;false&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    flag = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(flag)&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;true&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;false&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/05/05/bool/" data-id="cli9qm52p0004iovyeei487x4" data-title="Bool(布尔类型)" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-First" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/05/04/First/" class="article-date">
@@ -93,10 +186,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="分支限界法概念："><a href="#分支限界法概念：" class="headerlink" title="分支限界法概念："></a>分支限界法概念：</h2><h5 id="概念理解"><a href="#概念理解" class="headerlink" title="概念理解"></a>概念理解</h5><p>类似于回溯法，都同为解空间树</p>
+        <h2 id="分支限界法概念："><a href="#分支限界法概念：" class="headerlink" title="分支限界法概念："></a>分支限界法概念：</h2><h5 id="概念理"><a href="#概念理" class="headerlink" title="概念理"></a>概念理</h5><p>类似于回溯法，都同为解空间树</p>
 <p>在一般情况下，分枝限界法与回溯法的<strong>求解目标</strong>不同。回溯法的求解目标是找出解空间树中满足约束条件的<strong>所有解</strong>，而分枝限界法的求解目标则是找出满足约束条件的<strong>一个解</strong>，或是在满足约束条件的解中找出使某一目标函数值达到极大或极小的解，即在某种意义下的<strong>最优解</strong>。</p>
 <h5 id="关键"><a href="#关键" class="headerlink" title="关键"></a>关键</h5><p><strong><code>分支限界法搜索过程的关键在于判断孩子结点是舍弃还是保留</code>。</strong>因此，在搜索之前要设定孩子结点是舍弃还是保留的判断标准，这个判断标准与<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%9B%9E%E6%BA%AF%E6%B3%95&spm=1001.2101.3001.7020">回溯法</a>搜索过程中用到的约束条件和限界条件含义相同。</p>
-<p><img src="/../images/1.png"></p>
+<img src="../images/1.png" style="zoom:33%;" />
+
 <h2 id="设计分支限界法"><a href="#设计分支限界法" class="headerlink" title="设计分支限界法"></a>设计分支限界法</h2><h3 id="1）设计合适的限界函数"><a href="#1）设计合适的限界函数" class="headerlink" title="1）设计合适的限界函数"></a>1）设计合适的限界函数</h3><p>合适的好的限界函数，可以删除不必要的孩子节点，提高效率</p>
 <p>PS：在设置限界函数的时候要根据实际问题出发</p>
 <p>eg：</p>
@@ -124,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/05/04/First/" data-id="clha814md00009kvy3b5n5835" data-title="分支限界法" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/05/04/First/" data-id="cli9qm52h0000iovyghc8f8yf" data-title="分支限界法" class="article-share-link">Share</a>
       
       
       
@@ -175,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/04/21/hello-world/" data-id="clha814mh00019kvy4uy991ey" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/04/21/hello-world/" data-id="cli9qm52n0002iovy2jii7rwo" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -197,9 +291,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/" rel="tag">动态规划法</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%B3%95/" style="font-size: 10px;">动态规划法</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -216,6 +324,14 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2023/05/30/Experiment5/">Experiment5</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/05/bool/">Bool(布尔类型)</a>
+          </li>
         
           <li>
             <a href="/2023/05/04/First/">分支限界法</a>
